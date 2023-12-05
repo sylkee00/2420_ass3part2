@@ -1,0 +1,20 @@
+#cloud-config
+# You will need to edit this file before creating your new servers
+users:
+  - name: example
+    primary_group: example
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFtY97a9G5msg0oMa/qUBP2gMNFcuexh7X1JRUgM9fin email@example.com
+
+packages:
+  - ripgrep
+  - rsync
+
+runcmd:
+  - sed -i 's/^#\(Storage=auto\)/\1/' /etc/systemd/journald.conf
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - systemctl restart ssh
+  - systemctl restart systemd-journald
