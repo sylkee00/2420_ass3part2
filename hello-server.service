@@ -7,10 +7,13 @@ Wants=network-online.target
 Type=simple
 User=www-data
 Restart=on-failure
-
+ExecStart=/var/www/back-end/hello-server
 StandardOutput=append:/var/log/hello-server/backend.log
 StandardError=append:/var/log/hello-server/backend.log
-SyslogIdentifier=hello-server
+SyslogIdentifier=hello-server:q
 
-[]
+
+[Install]
+WantedBy=multi-user.target
+
 
